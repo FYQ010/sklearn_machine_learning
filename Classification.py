@@ -1,3 +1,6 @@
+# 自整理使用的sklearn实现的机器学习分类算法
+# 以下代码是针对我的数据进行编写，如需使用请替换数据
+
 import seaborn as sns; sns.set()
 import time
 
