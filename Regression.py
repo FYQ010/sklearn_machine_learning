@@ -1,51 +1,20 @@
+# 自整理使用的sklearn实现的机器学习回归算法
+# 以下代码是针对我的数据进行编写，如需使用请替换数据
+
 import numpy as np
 from sklearn.model_selection import train_test_split
 import pandas as pd
 from sklearn.decomposition import PCA
 
 
-file_path = r'D:\Phyon\Project\bys\train_data.xlsx'  # 读取表格
+file_path = r'D:\Phyon\Project\bys\train_data.xlsx'  # 请替换为自己的数据
 data = pd.read_excel(file_path,header=0)  # header为表头，自动去掉表头
 data = data.values
 
 
-
 name = data[:,0]
 features = data[:, 1:1001]  # 特征
-# labels_q = data[:, -3]     # 是否合格
-# labels = data[:, -4]     # 偏差
-# labels = data[:, -2]     #
-labels = data[0:208,-1]
-
-
-# labels = data[0:211,-1]
-#
-# x_pred = features[208:,:]
-# features11 = x_pred
-# x,y = np.shape(features11)
-# for i in range(x):
-#     for j in range(y):
-#         features11[i][j] = features11[i][j]*np.random.uniform(0.95, 1.05)
-# features[208:,:] = features11
-#
-#
-# features12 = np.concatenate((features, x_pred))
-
-
-# file_path1 = r'D:\Phyon\Project\bys\valid_data.xlsx'  # 读取表格
-# data1 = pd.read_excel(file_path1,header=0)  # header为表头，自动去掉表头
-# data1 = data1.values
-# features_valid = data1[:, 1:1001]  # 特征
-
-
-
-# train_index = list(np.arange(0,208))
-# for i in index:
-#     train_index.remove(i)
-
-
-# x_test = features[index,:]
-# y_test = labels[index]
+labels = data[0:208,-1]   # 标签
 
 
 # 分布归一化
@@ -54,17 +23,8 @@ scaler = MinMaxScaler()
 scaler = scaler.fit(features)  # 本质生成 max(x) 和 min(x)
 features2 = scaler.transform(features)
 
-
 features1 = features2[0:208,:]
 features_valid1 =  features2[208:,:]
-
-# x_train,y_train = features1,labels
-
-# x_test = features1[index,:]
-# y_test = labels[index]
-
-# x_train = features1[train_index,:]
-# y_train = labels[train_index]
 
 x_train,x_test,y_train,y_test = train_test_split(features1,labels,random_state=47,test_size=0.1)
 
@@ -76,7 +36,6 @@ x_train = ss_x.fit_transform(x_train)
 x_test = ss_x.transform(x_test)
 y_train = ss_y.fit_transform(y_train.reshape([-1,1])).reshape(-1)
 y_test = ss_y.transform(y_test.reshape([-1,1])).reshape(-1)
-
 
 
 
@@ -214,43 +173,7 @@ print("训练集分数：",rf.score(x_train,y_train))
 # print("验证集分数：",rf.score(x_test,y_test))
 print('预测结果：',rf.predict(features_valid1))
 print("*" * 100)
-#
 
-# # 计算残差，写入表格
-# import openpyxl
-# predict = rf.predict(x_test)
-# r = y_test-predict
-
-
-# wb = openpyxl.load_workbook(r'D:\Desktop\result.xlsx')
-# ws = wb['Sheet1']
-# # for ii in range(1, len(r) + 1):
-# #     va = r[ii - 1]
-# #     ws.cell(row=ii, column=4).value = va
-# # wb.save(r'D:\Desktop\result.xlsx')# 保存操作
-
-
-# name1 = name[index]
-# for ii in range(1, len(name1) + 1):
-#     va = name1[ii - 1]
-#     ws.cell(row=ii+1, column=11).value = va
-#
-# for ii in range(1, len(y_test) + 1):
-#     va = y_test[ii - 1]
-#     ws.cell(row=ii+1, column=12).value = va
-#
-# for ii in range(1, len(predict) + 1):
-#     va = predict[ii - 1]
-#     ws.cell(row=ii+1, column=13).value = va
-#
-# for ii in range(1, len(r) + 1):
-#     va = r[ii - 1]
-#     ws.cell(row=ii+1, column=14).value = va
-#
-#
-# wb.save(r'D:\Desktop\result.xlsx')# 保存操作
-#
-# a=1
 
 # LASSO回归模型(套索回归)
 from sklearn.linear_model import Lasso
